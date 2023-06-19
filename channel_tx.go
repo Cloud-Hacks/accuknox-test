@@ -25,4 +25,9 @@ Inside the for loop, an anonymous function is created using a closure. This func
 
 Outside the for loop, a function is sent to the channel cnp using the <- operator. In this case, the sent function prints "HERE1" inside the go routine.
 
-Finally, the main goroutine continues execution and prints "Hello". */
+Finally, the main goroutine continues execution and prints "Hello".
+
+The code allows you to submit tasks (functions) to the channel cnp for concurrent execution. This can be useful when you have a batch of independent tasks
+that can be executed concurrently, such as processing items in a queue, handling incoming requests, or performing parallel computations.
+
+*/

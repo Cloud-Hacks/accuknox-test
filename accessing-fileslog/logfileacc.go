@@ -33,6 +33,18 @@ func main() {
 	}
 	defer logFile.Close()
 
+	menuItemCounts := getMenuItems(logFile)
+	// Get the top 3 menu items consumed
+	top3MenuItems := findTopNMenuItems(menuItemCounts, 3)
+
+	// Print the top 3 menu items
+	fmt.Println("Top 3 Menu Items Consumed:")
+	for _, menuItem := range top3MenuItems {
+		fmt.Println(menuItem)
+	}
+}
+
+func getMenuItems(logFile *os.File) map[string]int {
 	// Map to store the count of each menu item
 	menuItemCounts := make(map[string]int)
 	menuItems := []menuItem{}
@@ -74,23 +86,18 @@ func main() {
 		}
 	}
 
-	// Get the top 3 menu items consumed
-	top3MenuItems := findTopNMenuItems(menuItemCounts, 3)
-
-	// Print the top 3 menu items
-	fmt.Println("Top 3 Menu Items Consumed:")
-	for _, menuItem := range top3MenuItems {
-		fmt.Println(menuItem)
-	}
+	return menuItemCounts
 }
 
 // Function to get the top N menu items based on their counts
-func findTopNMenuItems(menuItemCounts map[string]int, N int) []string {
+func findTopNMenuItems(menuItems map[string]int, N int) []string {
 	t := 0
 	itemTemp := []ItemsK{}
-	for key, count := range menuItemCounts {
+	for key, count := range menuItems {
 		itemTemp = append(itemTemp, ItemsK{key, count})
 	}
+
+	// fmt.Println(itemTemp)
 
 	for i := 0; i < len(itemTemp)-1; i++ {
 		t = i
@@ -102,6 +109,9 @@ func findTopNMenuItems(menuItemCounts map[string]int, N int) []string {
 		// fmt.Println(i, t)
 		itemTemp[i], itemTemp[t] = itemTemp[t], itemTemp[i]
 	}
+
+	// fmt.Println(itemTemp)
+
 	// Get the top N menu items
 	topNMenuItems := make([]string, N)
 
